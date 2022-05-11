@@ -1,0 +1,27 @@
+@use "sass:math";
+
+@function toRem($value) {
+  $remValue: math.div($value, 16) + rem;
+  @return $remValue;
+}
+
+$font-family: "DM Sans", sans-serif;
+
+$font-sizes: (
+  200: toRem(15.78),
+  250: toRem(16.97),
+  350: toRem(19.22),
+  400: toRem(19.69),
+  450: toRem(20),
+  600: toRem(23.96),
+  800: toRem(29.31),
+  900: toRem(35.22),
+);
+
+$clr-primary-100: hsl(214, 100%, 97%);
+$clr-primary-500: hsl(214, 100%, 56%);
+$clr-primary-700: hsl(214, 100%, 54%);
+
+$clr-neutral-100: hsl(0, 0%, 100%);
+$clr-neutral-700: hsl(0, 0%, 24%);
+$clr-neutral-900: hsl(0, 0%, 0%);
