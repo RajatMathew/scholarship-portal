@@ -20,3 +20,18 @@ h1 {
   font-size: map-get(variables.$font-sizes, 900);
   font-weight: 700;
 }
+
+h2 {
+  font-size: map-get(variables.$font-sizes, 800);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: map-get(variables.$font-sizes, 700);
+  font-weight: 700;
+}
+
+h4 {
+  font-size: map-get(variables.$font-sizes, 450);
+  font-weight: 700;
+}

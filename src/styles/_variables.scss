@@ -14,7 +14,8 @@ $font-sizes: (
   400: toRem(19.69),
   450: toRem(20),
   600: toRem(23.96),
-  800: toRem(29.31),
+  700: toRem(29.31),
+  800: toRem(33.16),
   900: toRem(35.22),
 );
 
@@ -25,3 +26,6 @@ $clr-primary-700: hsl(214, 100%, 54%);
 $clr-neutral-100: hsl(0, 0%, 100%);
 $clr-neutral-700: hsl(0, 0%, 24%);
 $clr-neutral-900: hsl(0, 0%, 0%);
+
+$timeline-circle-filled: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='14' cy='14' r='14' fill='%231D7EFF'/%3E%3C/svg%3E%0A");
+$timeline-circle: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='14' cy='14' r='12.5' fill='white' stroke='%231479FF' stroke-width='3'/%3E%3C/svg%3E%0A");
