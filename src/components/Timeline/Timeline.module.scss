@@ -1,0 +1,41 @@
+@use "../../styles/styles" as var;
+
+.timeline {
+  width: 100%;
+  height: min-content;
+  border-left: 1px solid var.$clr-primary-500;
+
+  &Element {
+    background-color: transparent;
+    padding: 0 0 37px 32px;
+    position: relative;
+
+    &:last-child {
+      background-color: var.$clr-neutral-100;
+      border-left: 1px solid var.$clr-neutral-100;
+      transform: translateX(-1px);
+      z-index: 2;
+    }
+    &::after {
+      position: absolute;
+      top: 0;
+      left: -14px;
+      content: var.$timeline-circle;
+    }
+    &[data-finished="true"]::after {
+      content: var.$timeline-circle-filled;
+    }
+    &Content {
+      width: 93%;
+    }
+    &Date {
+      font-weight: 700;
+      font-size: map-get(var.$font-sizes, 250);
+      letter-spacing: 0.025em;
+      color: var.$clr-primary-500;
+    }
+    &Title {
+      padding: 0.125em 0;
+    }
+  }
+}

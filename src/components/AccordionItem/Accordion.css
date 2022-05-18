@@ -1,7 +1,11 @@
-.accordion {
-}
+@use "../../styles/styles" as var;
 
 .accordion__item + .accordion__item {
+  margin-top: 0.75em;
+}
+
+.accordion__item[data-size="small"] + .accordion__item[data-size="small"] {
+  margin-top: 1em;
 }
 
 .accordion__button {
@@ -11,10 +15,6 @@
   text-align: left;
   border: none;
   -webkit-tap-highlight-color: transparent;
-  margin-bottom: ;
-}
-
-.accordion__button:hover {
 }
 
 .accordion__button > :nth-child(1)::after {
@@ -32,24 +32,18 @@
   transform: rotate(180deg);
 }
 
-[hidden] {
+.accordion__panel[hidden] {
   max-height: 0;
+  display: block;
 }
 
 .accordion__panel {
-  animation: fadein 1s ease alternate;
+  overflow: hidden;
+  margin-top: 0.75em;
+  max-height: 100vh;
+  transition: max-height 0.2s ease-in-out;
 }
 
-/* -------------------------------------------------- */
-/* ---------------- Animation part ------------------ */
-/* -------------------------------------------------- */
-
-@keyframes fadein {
-  0% {
-    max-height: 0;
-  }
-
-  100% {
-    max-height: 100vh;
-  }
+.accordion__panel[data-size="small"] {
+  font-size: var(--font-size-small);
 }

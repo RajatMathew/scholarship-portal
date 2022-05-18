@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import scholarshipReducer from "../feature/Scholarship/scholarshipSlice";
 // ...
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    scholarship: scholarshipReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

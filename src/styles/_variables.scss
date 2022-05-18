@@ -19,6 +19,9 @@ $font-sizes: (
   900: toRem(35.22),
 );
 
+:root {
+  --font-size-small: 0.986rem;
+}
 $clr-primary-100: hsl(214, 100%, 97%);
 $clr-primary-500: hsl(214, 100%, 56%);
 $clr-primary-700: hsl(214, 100%, 54%);

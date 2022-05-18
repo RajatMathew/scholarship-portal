@@ -7,25 +7,37 @@ import {
 } from "react-accessible-accordion";
 import "./Accordion.css";
 
-export 
-
-function Accordion() {
-  return (
-    <AccordionItem>
-      <AccordionItemHeading>
-        <AccordionItemButton>
-          <h3>Additional Info</h3>
-        </AccordionItemButton>
-      </AccordionItemHeading>
-      <AccordionItemPanel>
-        <p>
-          Exercitation in fugiat est ut ad ea cupidatat ut in cupidatat occaecat
-          ut occaecat consequat est minim minim esse tempor laborum consequat
-          esse adipisicing eu reprehenderit enim.
-        </p>
-      </AccordionItemPanel>
-    </AccordionItem>
-  );
+export interface AccordionItemProps {
+  TitleComponent?:
+    | string
+    | React.FunctionComponent<any>
+    | React.ComponentClass<any, any>;
+  TitleComponentProps?: React.ComponentProps<any>;
+  title?: string;
+  type?: "small" | "large";
 }
 
-export default Accordion;
+const AccordionItm = (props: React.PropsWithChildren<AccordionItemProps>) => {
+  const {
+    title,
+    children,
+    TitleComponent = "h3",
+    TitleComponentProps,
+    type = "large",
+  } = props;
+  return (
+    <AccordionItem data-size={type}>
+      <AccordionItemHeading>
+        <AccordionItemButton>
+          {React.createElement(TitleComponent, {
+            children: title,
+            ...TitleComponentProps,
+          })}
+        </AccordionItemButton>
+      </AccordionItemHeading>
+      <AccordionItemPanel data-size={type}>{children}</AccordionItemPanel>
+    </AccordionItem>
+  );
+};
+
+export default AccordionItm;
