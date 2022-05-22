@@ -1,7 +1,9 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { HashRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import "simplebar/dist/simplebar.min.css";
 import { store } from "../../store/store";
+import Home from "../Home";
 import Scholarship from "../Scholarship";
 
 function App() {
@@ -9,16 +11,7 @@ function App() {
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <ul>
-                <li>
-                  <Link to="scholarship/1">Goto scholarship 1</Link>
-                </li>
-              </ul>
-            }
-          />
+          <Route path="/" element={<Home />} />
           <Route path="/scholarship/:id" element={<Scholarship />} />
         </Routes>
       </Router>

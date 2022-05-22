@@ -12,6 +12,7 @@ h6 {
 .container {
   width: 100%;
   height: 100%;
+  max-height: 100vh;
   display: flex;
   flex-flow: column;
   flex: 1 1 auto;
@@ -29,6 +30,7 @@ h6 {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   .title {
+    width: 100%;
     font: inherit;
   }
 }
@@ -42,15 +44,11 @@ main {
   .coverImg {
     position: relative;
     background-color: #e6e6e6;
-    background-image: var(--cover-img);
-    background-attachment: fixed;
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 50vh;
+    height: 40vh;
     max-height: 240px;
+    overflow: hidden;
 
-    &::after {
+    &[data-loading="false"]::after {
       content: "";
       position: absolute;
       top: 0;
@@ -62,12 +60,23 @@ main {
       background-color: hsl(155, 72%, 49%);
       opacity: 0.46;
     }
+
+    img {
+      object-fit: cover;
+      object-position: center center;
+      width: 100%;
+      margin-inline: auto;
+    }
   }
 
   .wrapper {
     height: 100%;
     flex: 1 1 auto;
     display: flex;
+
+    .initiatorLogo {
+      margin-bottom: 1em;
+    }
 
     .content {
       display: flex;
@@ -77,12 +86,19 @@ main {
 
       .contentWrapper {
         font: inherit;
-        width: auto;
+        width: 100%;
         margin-inline: 3em;
         padding-inline: 1em;
         max-width: calc(742px + 2em);
         position: relative;
         padding-bottom: 120px;
+
+        @media screen and (max-width: 850px) {
+          margin-inline: 1em;
+          padding-inline: 0.5em;
+          padding-bottom: 20px;
+          max-width: 500px;
+        }
 
         section + section {
           margin-top: 2em;
@@ -101,22 +117,25 @@ main {
           justify-content: flex-start;
           margin-top: 1.4em;
           margin-bottom: 2.5em;
-          & > * {
-            margin-right: 0.5em;
-          }
+          flex-wrap: wrap;
+          gap: 0.5em;
+          font-size: 0.5em;
         }
 
         .logo {
-          position: absolute;
-          top: -78.5px;
-          width: 157px;
-          height: 157px;
+          transform: translateY(-50%);
+          width: clamp(100px, 15vw, 157px);
+          height: clamp(100px, 15vw, 157px);
           filter: drop-shadow(0px 3.54802px 60.3164px rgba(0, 0, 0, 0.09));
           z-index: 10;
+          user-drag: none;
+          -webkit-user-drag: none;
+          user-select: none;
+          object-fit: contain;
         }
 
         h1 {
-          margin-top: 120px;
+          margin-top: -5%;
           margin-bottom: 0.125em;
         }
       }
@@ -129,14 +148,6 @@ main {
       border-left: 1px solid #e6e6e6;
       padding: 90px 44px;
 
-      .initiatorLogo {
-        margin-bottom: 1em;
-      }
-
-      section > %headings {
-        margin-bottom: 0.5em;
-      }
-
       section + section {
         margin-top: 2em;
       }
@@ -146,6 +157,12 @@ main {
       }
       section > h2 {
         margin-top: 1.5em;
+      }
+    }
+
+    .timelineWrapper {
+      & > %headings {
+        margin-bottom: 0.5em;
       }
     }
   }

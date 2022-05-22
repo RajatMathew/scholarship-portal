@@ -9,6 +9,7 @@ body {
   font-size: map-get(variables.$font-sizes, 400);
   letter-spacing: -0.045em;
   background-color: variables.$clr-neutral-100;
+  scroll-behavior: smooth;
 }
 #root {
   min-height: 100%;
@@ -35,3 +36,7 @@ h4 {
   font-size: map-get(variables.$font-sizes, 450);
   font-weight: 700;
 }
+
+// .simplebar-scrollbar::before {
+//   background-color: variables.$clr-primary-100;
+// }

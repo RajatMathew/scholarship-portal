@@ -1,7 +1,12 @@
 import classNames from "classnames/bind";
+import times from "lodash/times";
 import React, { createRef, useEffect } from "react";
 import { Accordion } from "react-accessible-accordion";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useMediaQuery } from "react-responsive";
 import { useParams } from "react-router-dom";
+import SimpleBar from "simplebar-react";
 import { getInitiatorById, getScholarshipById } from "../../api";
 import { Initiator } from "../../api/Initiator";
 import { Scholarship as ScholarshipInterface } from "../../api/Scholarship";
@@ -15,6 +20,7 @@ import classes from "./Scholarship.module.scss";
 import {
   selectInitiator,
   selectScholarship,
+  setLoading,
   updateInitiatorDetails,
   updateScholarshipDetails,
 } from "./scholarshipSlice";
@@ -22,11 +28,14 @@ import {
 let cx = classNames.bind(classes);
 
 function Scholarship() {
-  const divRef = createRef<HTMLDivElement>();
   const dispatch = useAppDispatch();
   let { id } = useParams();
 
+  const simpleBar = createRef<SimpleBar>();
+
   useEffect(() => {
+    simpleBar.current && simpleBar.current.recalculate();
+    dispatch(setLoading(true));
     if (id) {
       getScholarshipById(parseInt(id)).then(
         (scholarship: ScholarshipInterface) => {
@@ -46,61 +55,124 @@ function Scholarship() {
             initiatorRequestPromise.then(() => {
               if (initiator != null) {
                 dispatch(updateInitiatorDetails(initiator));
+                dispatch(setLoading(false));
               }
             });
           }
         }
       );
     }
-  }, [id]);
+  }, []);
 
-  const scholarshipDetails: ScholarshipInterface | null =
-    useAppSelector(selectScholarship);
+  const isLoading = useAppSelector((state) => state.scholarship.isLoading);
+
+  const {
+    name,
+    coverImg,
+    logoImg,
+    description,
+    timeline,
+    content,
+  }: ScholarshipInterface =
+    useAppSelector(selectScholarship) || ({} as ScholarshipInterface);
+
   const initiatorDetails: Initiator[] | null = useAppSelector(selectInitiator);
 
+  const isNotDesktop = useMediaQuery({ query: "(max-width: 850px)" });
+
+  const aboutOrganization = !isLoading ? (
+    initiatorDetails?.map(({ id, name, logo, description }) => (
+      <section key={id}>
+        <img
+          className={classes.initiatorLogo}
+          src={logo}
+          aria-hidden="true"
+          alt="Logo"
+        />
+        <h4>About {name}</h4>
+        <p aria-labelledby={`About ${name}`}>{description}</p>
+      </section>
+    ))
+  ) : (
+    <section>
+      <p>
+        <Skeleton width="10ch" height="5ch" />
+      </p>
+      <h4>
+        <Skeleton width={"8ch"} />
+      </h4>
+      <p>
+        <Skeleton count={5} />
+      </p>
+    </section>
+  );
+
   return (
-    <div ref={divRef} className={classes.container}>
-      {scholarshipDetails ? (
-        initiatorDetails && (
-          <>
-            <header className={classes.header}>
-              <div className="title">{scholarshipDetails.name}</div>
-              <div className="search"></div>
-            </header>
-            <main>
-              <div
-                style={
-                  {
-                    "--cover-img": `url(${scholarshipDetails.coverImg})`,
-                  } as React.CSSProperties
-                }
-                className={classes.coverImg}
-              ></div>
-              <section className={classes.wrapper}>
-                <section className={classes.content}>
-                  <div className={classes.contentWrapper}>
-                    <img
-                      src={scholarshipDetails.logoImg}
-                      aria-hidden="true"
-                      className={classes.logo}
-                      alt="Logo"
-                    />
-                    <h1>{scholarshipDetails.name}</h1>
-                    <span>
-                      by {initiatorDetails.map((item) => item.name).join(", ")}
-                    </span>
-                    <p aria-labelledby={scholarshipDetails.name}>
-                      {scholarshipDetails.description}
-                    </p>
-                    <div className={classes.btns}>
-                      <Button variant="text" color="primary" type="button">
+    <SimpleBar ref={simpleBar} className={classes.container}>
+      <>
+        <header className={classes.header}>
+          <div className={classes.title}>
+            {!isLoading ? (
+              name
+            ) : (
+              <Skeleton width={isNotDesktop ? "50%" : "30%"} />
+            )}
+          </div>
+          <div className="search"></div>
+        </header>
+        <main>
+          {!isLoading ? (
+            <div className={classes.coverImg} data-loading="false">
+              <img src={coverImg} />
+            </div>
+          ) : (
+            <Skeleton containerClassName={classes.coverImg} height="100%" />
+          )}
+          <section className={classes.wrapper}>
+            <section className={classes.content}>
+              <div className={classes.contentWrapper}>
+                {!isLoading ? (
+                  <img
+                    src={logoImg}
+                    aria-hidden="true"
+                    className={classes.logo}
+                    alt="Logo"
+                  />
+                ) : (
+                  <Skeleton className={classes.logo} />
+                )}
+                <h1>{!isLoading ? name : <Skeleton width="90%" />}</h1>
+                {!isLoading ? (
+                  <span>
+                    by {initiatorDetails?.map((item) => item.name).join(", ")}
+                  </span>
+                ) : (
+                  <Skeleton width="10ch" />
+                )}
+                <p aria-labelledby={name}>
+                  {!isLoading ? description : <Skeleton count={3} />}
+                </p>
+
+                <div className={classes.btns}>
+                  {!isLoading && (
+                    <>
+                      <Button
+                        variant="text"
+                        color="primary"
+                        type="button"
+                        rounded="pill"
+                      >
                         <GlobeIcon />
                         Register now
                       </Button>
                       <Button color="secondary" variant="icon" type="button">
                         <ShareIcon />
                       </Button>
-                    </div>
+                    </>
+                  )}
+                </div>
+                {!isLoading ? (
+                  <>
                     <section>
                       <h3>Eligibility</h3>
                       <ul>
@@ -193,39 +265,49 @@ function Scholarship() {
                             </p>
                           </AccordionItem>
                         </AccordionItem>
+                        {isNotDesktop && (
+                          <AccordionItem title="Timeline">
+                            <section>
+                              <Timeline items={timeline as TimelineElement[]} />
+                            </section>
+                          </AccordionItem>
+                        )}
                       </Accordion>
                     </section>
-                  </div>
-                </section>
-
-                <section className={classes.rightSidebar}>
-                  {initiatorDetails.map(({ id, name, logo, description }) => (
-                    <section key={id}>
-                      <img
-                        className={classes.initiatorLogo}
-                        src={logo}
-                        aria-hidden="true"
-                        alt="Logo"
-                      />
-                      <h4>About {name}</h4>
-                      <p aria-labelledby={`About ${name}`}>{description}</p>
+                  </>
+                ) : (
+                  times(3, () => (
+                    <section>
+                      <h3>
+                        <Skeleton width="60%" />
+                      </h3>
+                      <p>
+                        <Skeleton count={5} />
+                      </p>
                     </section>
-                  ))}
-                  <section className={classes.timelineWrapper}>
-                    <h2>Timeline</h2>
-                    <Timeline
-                      items={scholarshipDetails.timeline as TimelineElement[]}
-                    />
-                  </section>
+                  ))
+                )}
+                {isNotDesktop && aboutOrganization}
+              </div>
+            </section>
+
+            {!isNotDesktop && (
+              <section className={classes.rightSidebar}>
+                {aboutOrganization}
+                <section className={classes.timelineWrapper}>
+                  <h2>{!isLoading ? "Timeline" : <Skeleton />}</h2>
+                  {!isLoading ? (
+                    <Timeline items={timeline as TimelineElement[]} />
+                  ) : (
+                    <Skeleton count={10} />
+                  )}
                 </section>
               </section>
-            </main>
-          </>
-        )
-      ) : (
-        <h1>Loading</h1>
-      )}
-    </div>
+            )}
+          </section>
+        </main>
+      </>
+    </SimpleBar>
   );
 }
 

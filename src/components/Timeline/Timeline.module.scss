@@ -1,41 +1,62 @@
 @use "../../styles/styles" as var;
-
-.timeline {
+.wrapper {
   width: 100%;
-  height: min-content;
-  border-left: 1px solid var.$clr-primary-500;
+  max-width: 100vw;
+  padding: 1em;
+  @media screen and (max-width: 350px) {
+    margin-top: -40%;
+    margin-bottom: -50%;
+    margin-left: -10%;
+    margin-right: -100%;
+    transform: scale(0.7);
+    overflow-x: hidden;
+  }
+  .timeline {
+    width: 100%;
+    height: min-content;
+    border-left: 1px solid var.$clr-primary-500;
 
-  &Element {
-    background-color: transparent;
-    padding: 0 0 37px 32px;
-    position: relative;
+    &Element {
+      background-color: transparent;
+      padding: 0 0 2em 1.5em;
+      max-width: 18em;
+      position: relative;
 
-    &:last-child {
-      background-color: var.$clr-neutral-100;
-      border-left: 1px solid var.$clr-neutral-100;
-      transform: translateX(-1px);
-      z-index: 2;
-    }
-    &::after {
-      position: absolute;
-      top: 0;
-      left: -14px;
-      content: var.$timeline-circle;
-    }
-    &[data-finished="true"]::after {
-      content: var.$timeline-circle-filled;
-    }
-    &Content {
-      width: 93%;
-    }
-    &Date {
-      font-weight: 700;
-      font-size: map-get(var.$font-sizes, 250);
-      letter-spacing: 0.025em;
-      color: var.$clr-primary-500;
-    }
-    &Title {
-      padding: 0.125em 0;
+      @media screen and (max-width: 350px) {
+        padding: 0 0 2em 1.5em;
+      }
+
+      &:last-child {
+        background-color: var.$clr-neutral-100;
+        border-left: 2px solid var.$clr-neutral-100;
+        transform: translateX(-2px);
+        z-index: 2;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -14px;
+        background-image: var.$timeline-circle;
+        background-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+      &[data-finished="true"]::after {
+        background-image: var.$timeline-circle-filled;
+      }
+      &Content {
+        width: 93%;
+      }
+      &Date {
+        font-weight: 700;
+        font-size: map-get(var.$font-sizes, 250);
+        letter-spacing: 0.025em;
+        color: var.$clr-primary-500;
+      }
+      &Title {
+        padding: 0.125em 0;
+      }
     }
   }
 }

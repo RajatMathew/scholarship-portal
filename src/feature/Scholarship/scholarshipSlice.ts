@@ -6,11 +6,13 @@ import type { RootState } from "../../store/store";
 interface ScholarshipState {
   scholarshipDetails: Scholarship | null;
   initiatorDetails: Initiator[] | null;
+  isLoading: boolean;
 }
 
 const initialState: ScholarshipState = {
   scholarshipDetails: null,
   initiatorDetails: null,
+  isLoading: true,
 };
 
 export const scholarshipSlice = createSlice({
@@ -18,15 +20,18 @@ export const scholarshipSlice = createSlice({
   initialState,
   reducers: {
     updateScholarshipDetails: (state, action: PayloadAction<Scholarship>) => {
-      return { ...state, scholarshipDetails: action.payload };
+      state.scholarshipDetails = action.payload;
     },
     updateInitiatorDetails: (state, action: PayloadAction<Initiator[]>) => {
-      return { ...state, initiatorDetails: [...action.payload] };
+      state.initiatorDetails = [...action.payload];
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
   },
 });
 
-export const { updateScholarshipDetails, updateInitiatorDetails } =
+export const { updateScholarshipDetails, updateInitiatorDetails, setLoading } =
   scholarshipSlice.actions;
 export const selectScholarship = (state: RootState) =>
   state.scholarship.scholarshipDetails;
