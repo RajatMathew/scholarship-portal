@@ -10,6 +10,10 @@
     padding: 0.5em 1em;
   }
 
+  &.fullWidth {
+    width: 100%;
+  }
+
   font-size: map-get(var.$font-sizes, 350);
   font-weight: 700;
   border: none;

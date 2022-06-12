@@ -1,0 +1,70 @@
+@use "../../styles/styles" as var;
+
+.wrapper {
+  max-width: 440px;
+  margin: 16px;
+  height: max-content;
+  border-radius: 9px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 9px 1px 48px rgba(0, 0, 0, 0.08);
+  .utag {
+    border-radius: 9999px;
+    background-color: var.$clr-secondary-200;
+    padding: 8px 20px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: var.$clr-primary-500;
+    top: 22px;
+    right: 15px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+  }
+}
+.img {
+  width: 100%;
+  height: 55%;
+}
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #fff;
+  padding: 0.9em 1.2em;
+  gap: 15px;
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    width: 90%;
+  }
+  .org {
+    font-weight: 400;
+    font-size: 0.883rem;
+  }
+  .tags {
+    display: flex;
+    gap: 5px;
+    .tag {
+      border-radius: 9999px;
+      background-color: var.$clr-primary-200;
+      padding: 5px 15px;
+      font-weight: 700;
+      font-size: 0.7rem;
+      color: var.$clr-primary-500;
+    }
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+}
+.vmBtn {
+  margin-top: 10px;
+  width: calc(100% + 0.8em);
+  margin-inline: -0.4em;
+}

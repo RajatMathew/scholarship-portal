@@ -91,6 +91,9 @@
       &Content {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        @media screen and (max-width: 450px) {
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
         gap: 1em;
         padding: 1.5em 0;
         place-items: center;

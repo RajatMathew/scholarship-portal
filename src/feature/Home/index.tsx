@@ -1,9 +1,10 @@
 import { times } from "lodash";
-import React, { createRef, useEffect } from "react";
+import { createRef, useEffect } from "react";
 import SimpleBar from "simplebar-react";
 import { ReactComponent as ArrowIcon } from "../../assets/arrow.svg";
 import HeroImage from "../../assets/hero.png";
 import Button from "../../components/Button";
+import Card from "../../components/Card";
 import classes from "./Home.module.scss";
 
 function Home() {
@@ -71,6 +72,7 @@ function Home() {
               </div>
             ))}
           </div>
+          <Card />
         </section>
       </main>
     </SimpleBar>

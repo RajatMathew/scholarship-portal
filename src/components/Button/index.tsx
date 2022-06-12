@@ -10,6 +10,7 @@ const Button = (
       color?: "primary" | "secondary";
       variant?: "icon" | "text";
       rounded?: "small" | "none" | "pill";
+      fullWidth?: boolean;
     } & DetailedHTMLProps<
       ButtonHTMLAttributes<HTMLButtonElement>,
       HTMLButtonElement
@@ -21,6 +22,8 @@ const Button = (
     variant = "normal",
     children,
     rounded = "none",
+    fullWidth = false,
+    className,
     ...rest
   } = props;
   const BtnClasses = cx(
@@ -29,8 +32,10 @@ const Button = (
       btnPrimary: color === "primary",
       btnSecondary: color === "secondary",
       btnIcon: variant === "icon",
+      fullWidth: fullWidth,
     },
-    `btnRounded-${rounded}`
+    `btnRounded-${rounded}`,
+    className
   );
   return (
     <button className={BtnClasses} {...rest}>
