@@ -39,21 +39,21 @@ function Scholarship() {
     if (id) {
       getScholarshipById(parseInt(id)).then(
         (scholarship: ScholarshipInterface) => {
-          if (scholarship != null) {
+          if (scholarship !== null) {
             dispatch(updateScholarshipDetails(scholarship));
             let initiator: Initiator[] = [];
             let initiatorRequestPromise = new Promise<void>(
               (resolve, reject) => {
                 scholarship.initiators.forEach(async (id, index, array) => {
                   let currentInitiator = await getInitiatorById(id);
-                  if (currentInitiator != null)
+                  if (currentInitiator !== null)
                     initiator.push(currentInitiator);
                   if (index === array.length - 1) resolve();
                 });
               }
             );
             initiatorRequestPromise.then(() => {
-              if (initiator != null) {
+              if (initiator !== null) {
                 dispatch(updateInitiatorDetails(initiator));
                 dispatch(setLoading(false));
               }
