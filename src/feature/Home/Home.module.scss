@@ -13,6 +13,20 @@
     align-items: stretch;
     justify-content: center;
     position: relative;
+    @media screen and (max-width: 850px) {
+      &::before {
+        background-image: url(../../assets/hero.png);
+        opacity: 0.3;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        z-index: -1;
+      }
+    }
 
     @media screen and (min-height: 1vw) and (min-width: 850px) {
       min-height: 45vh;
@@ -89,12 +103,13 @@
     }
 
     section + section {
-      margin-top: 60px;
+      margin-top: 20px;
     }
 
     .orgs {
       .orgsContent {
         display: flex;
+        flex-wrap: wrap;
         gap: 1.3em;
         padding: 1.5em 0;
 
@@ -108,7 +123,13 @@
           display: grid;
           place-items: center;
           img {
+            max-height: 60%;
             margin: auto;
+            object-fit: contain;
+            overflow: hidden;
+            user-drag: none;
+            -webkit-user-drag: none;
+            user-select: none;
           }
         }
       }
@@ -151,6 +172,8 @@
         height: 12.5em;
         border-radius: 2em;
         overflow: hidden;
+        border: none;
+        --webkit-tap-highlight-color: transparent;
         position: relative;
         cursor: pointer;
         user-select: none;
@@ -189,34 +212,27 @@
     }
   }
 
+  .cards {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.3em;
+    padding-block-start: 1em;
+    padding-bottom: 0;
+    .error {
+      padding-left: 1em;
+      color: grey;
+      font-size: 1rem;
+    }
+  }
+  section:last-child {
+    margin-bottom: 30px;
+  }
   .footer {
     background-color: var.$clr-neutral-100;
-    box-shadow: 0px -7px 168px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    height: 50vh;
-    display: flex;
-
-    &Logo {
-      display: grid;
-      place-items: center;
-
-      flex: 0 0 40%;
-
-      p {
-        max-width: 400px;
-      }
-    }
-
-    &Content {
-      flex: 0 0 60%;
-
-      &Links {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        
-
-      }
-    }
+    border-top: 1px solid lightgrey;
+    padding: 1rem;
+    font-size: 1rem;
+    color: grey;
+    text-align: center;
   }
 }

@@ -17,23 +17,6 @@ h6 {
   flex-flow: column;
   flex: 1 1 auto;
 }
-.header {
-  background: var.$clr-neutral-100;
-  font-size: map-get(var.$font-sizes, 400);
-  padding: 0.787em 1.1173em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
-    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  .title {
-    width: 100%;
-    font: inherit;
-  }
-}
 
 main {
   height: 100%;
@@ -45,7 +28,7 @@ main {
     position: relative;
     background-color: #e6e6e6;
     height: 40vh;
-    max-height: 240px;
+    max-height: 320px;
     overflow: hidden;
 
     &[data-loading="false"]::after {
@@ -57,7 +40,7 @@ main {
       right: 0;
       width: 100%;
       height: 100%;
-      background-color: hsl(155, 72%, 49%);
+      background-color: hsla(155, 72%, 49%, 0.493);
       opacity: 0.46;
     }
 
@@ -73,10 +56,6 @@ main {
     height: 100%;
     flex: 1 1 auto;
     display: flex;
-
-    .initiatorLogo {
-      margin-bottom: 1em;
-    }
 
     .content {
       display: flex;
@@ -98,10 +77,6 @@ main {
           padding-inline: 0.5em;
           padding-bottom: 20px;
           max-width: 500px;
-        }
-
-        section + section {
-          margin-top: 2em;
         }
 
         & > p {

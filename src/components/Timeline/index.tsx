@@ -1,14 +1,11 @@
-import classNames from "classnames/bind";
-import { compareDesc } from "date-fns";
+import { compareDesc, format } from "date-fns";
 import { DetailedHTMLProps, HTMLAttributes, PropsWithRef } from "react";
 import classes from "./Timeline.module.scss";
 
-let cx = classNames.bind(classes);
-
 export interface TimelineElement {
-  date: string;
-  title: string;
-  description: string;
+  Date: string;
+  Title: string;
+  Description: string;
 }
 
 export interface TimelineProps
@@ -24,14 +21,16 @@ function Timeline(props: PropsWithRef<TimelineProps>) {
         {items.length > 0 &&
           items.map((i) => (
             <div
-              key={i.title}
+              key={i.Title}
               className={classes.timelineElement}
-              data-finished={compareDesc(new Date(i.date), new Date()) === 1}
+              data-finished={compareDesc(new Date(i.Date), new Date()) === 1}
             >
               <div className={classes.timelineElementContent}>
-                <span className={classes.timelineElementDate}>{i.date}</span>
-                <h3 className={classes.timelineElementTitle}>{i.title}</h3>
-                <p className={classes.timelineElementText}>{i.description}</p>
+                <span className={classes.timelineElementDate}>
+                  {format(new Date(i.Date), "dd MMM, yyy")}
+                </span>
+                <h3 className={classes.timelineElementTitle}>{i.Title}</h3>
+                <p className={classes.timelineElementText}>{i.Description}</p>
               </div>
             </div>
           ))}

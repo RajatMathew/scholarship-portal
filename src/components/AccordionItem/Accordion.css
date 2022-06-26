@@ -1,11 +1,15 @@
 @use "../../styles/styles" as var;
 
-.accordion__item + .accordion__item {
+.accordion__item {
   margin-top: 0.75em;
 }
 
 .accordion__item[data-size="small"] + .accordion__item[data-size="small"] {
   margin-top: 1em;
+}
+
+.accordion > section {
+  margin-top: 2em;
 }
 
 .accordion__button {
@@ -39,7 +43,7 @@
 
 .accordion__panel {
   overflow: hidden;
-  margin-top: 0.75em;
+  margin-top: 0.5em;
   max-height: 100vh;
   transition: max-height 0.2s ease-in-out;
 }

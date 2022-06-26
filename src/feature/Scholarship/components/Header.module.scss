@@ -1,0 +1,19 @@
+@use "../../../styles/styles" as var;
+
+.header {
+  background: var.$clr-neutral-100;
+  font-size: map-get(var.$font-sizes, 400);
+  padding: 0.787em 1.1173em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  .title {
+    width: 100%;
+    font: inherit;
+  }
+}

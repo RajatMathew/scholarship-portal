@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  AccordionItem,
+  AccordionItem as AT,
   AccordionItemButton,
   AccordionItemHeading,
   AccordionItemPanel,
@@ -17,7 +17,7 @@ export interface AccordionItemProps {
   type?: "small" | "large";
 }
 
-const AccordionItm = (props: React.PropsWithChildren<AccordionItemProps>) => {
+const AccordionItem = (props: React.PropsWithChildren<AccordionItemProps>) => {
   const {
     title,
     children,
@@ -26,7 +26,7 @@ const AccordionItm = (props: React.PropsWithChildren<AccordionItemProps>) => {
     type = "large",
   } = props;
   return (
-    <AccordionItem data-size={type}>
+    <AT data-size={type}>
       <AccordionItemHeading>
         <AccordionItemButton>
           {React.createElement(TitleComponent, {
@@ -36,8 +36,8 @@ const AccordionItm = (props: React.PropsWithChildren<AccordionItemProps>) => {
         </AccordionItemButton>
       </AccordionItemHeading>
       <AccordionItemPanel data-size={type}>{children}</AccordionItemPanel>
-    </AccordionItem>
+    </AT>
   );
 };
 
-export default AccordionItm;
+export default AccordionItem;
