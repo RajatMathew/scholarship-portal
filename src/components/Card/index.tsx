@@ -37,7 +37,7 @@ function Card() {
         <Button
           className={cx("vmBtn")}
           rounded="small"
-          onClick={() => navigate("scholarships/1")}
+          onClick={() => navigate("scholarship/1")}
         >
           View more&nbsp;
           <ArrowIcon />

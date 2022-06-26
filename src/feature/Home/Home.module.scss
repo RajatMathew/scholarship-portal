@@ -12,9 +12,15 @@
     min-height: 100vh;
     align-items: stretch;
     justify-content: center;
+    position: relative;
 
     @media screen and (min-height: 1vw) and (min-width: 850px) {
       min-height: 45vh;
+    }
+    .Logo {
+      position: absolute;
+      top: 30px;
+      left: 70px;
     }
 
     &Text {
@@ -84,6 +90,28 @@
 
     section + section {
       margin-top: 60px;
+    }
+
+    .orgs {
+      .orgsContent {
+        display: flex;
+        gap: 1.3em;
+        padding: 1.5em 0;
+
+        .org {
+          width: 256px;
+          height: 142px;
+          flex-shrink: 0;
+          border: 1px solid rgba(147, 147, 147, 0.41);
+          filter: drop-shadow(0px 4px 34px rgba(0, 0, 0, 0.11));
+          border-radius: 27.411px;
+          display: grid;
+          place-items: center;
+          img {
+            margin: auto;
+          }
+        }
+      }
     }
 
     .categories {
@@ -157,6 +185,37 @@
           background-position-y: bottom;
           background-size: 90%;
         }
+      }
+    }
+  }
+
+  .footer {
+    background-color: var.$clr-neutral-100;
+    box-shadow: 0px -7px 168px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    height: 50vh;
+    display: flex;
+
+    &Logo {
+      display: grid;
+      place-items: center;
+
+      flex: 0 0 40%;
+
+      p {
+        max-width: 400px;
+      }
+    }
+
+    &Content {
+      flex: 0 0 60%;
+
+      &Links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        
+
       }
     }
   }
