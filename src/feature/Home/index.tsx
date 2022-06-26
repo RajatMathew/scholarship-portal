@@ -1,6 +1,5 @@
 import { createRef, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router-dom";
 import SimpleBar from "simplebar-react";
 import { useQuery } from "urql";
 import { BASE_URL } from "../../api";
@@ -9,6 +8,7 @@ import HeroImage from "../../assets/hero.png";
 import MainLogo from "../../assets/main-logo-Banner.png";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
+import Footer from "../../components/Footer";
 import { ORGANIZATION_DATA, SCHOLARSHIP_DATA } from "./getData";
 import classes from "./Home.module.scss";
 
@@ -105,7 +105,7 @@ function Home() {
           </div>
         </section>
         <section className={classes.orgs}>
-          <h1>{fetching ? <Skeleton width="30ch" /> : "Powered by"} </h1>
+          <h1>{fetching ? <Skeleton width="20ch" /> : "Powered by"} </h1>
           <div className={classes.orgsContent}>
             {!fetching ? (
               organizations?.organizations.data.map((org: any) => (
@@ -133,32 +133,34 @@ function Home() {
               ref={(el) => (typeRef.current[idx] = el)}
             >
               <h1>{type.text}</h1>
-              <div className={classes.cards}>
-                {(function () {
-                  let sch = scholarships?.scholarships.data.filter(
-                    (i: any) => i.attributes.Type === type.type.toLowerCase()
-                  );
-                  return sch?.length > 0 ? (
-                    sch?.map((scholarship: any) => (
-                      <Card
-                        logo={`${BASE_URL}${scholarship.attributes.Logo.data.attributes.url}`}
-                        title={scholarship.attributes.Name}
-                        description={scholarship.attributes.Description}
-                        org={
-                          scholarship.attributes.Organization.data.attributes
-                            .Name
-                        }
-                        id={scholarship.id}
-                      />
-                    ))
-                  ) : (
-                    <span className={classes.error}>
-                      Nothing seems to be available now. Please check back
-                      later.
-                    </span>
-                  );
-                })()}
-              </div>
+              <SimpleBar>
+                <div className={classes.cards}>
+                  {(function () {
+                    let sch = scholarships?.scholarships.data.filter(
+                      (i: any) => i.attributes.Type === type.type.toLowerCase()
+                    );
+                    return sch?.length > 0 ? (
+                      sch?.map((scholarship: any) => (
+                        <Card
+                          logo={`${BASE_URL}${scholarship.attributes.Logo.data.attributes.url}`}
+                          title={scholarship.attributes.Name}
+                          description={scholarship.attributes.Description}
+                          org={
+                            scholarship.attributes.Organization.data.attributes
+                              .Name
+                          }
+                          id={scholarship.id}
+                        />
+                      ))
+                    ) : (
+                      <span className={classes.error}>
+                        Nothing seems to be available now. Please check back
+                        later.
+                      </span>
+                    );
+                  })()}
+                </div>
+              </SimpleBar>
             </section>
           ))
         ) : (
@@ -170,10 +172,7 @@ function Home() {
           </section>
         )}
       </main>
-      <footer className={classes.footer}>
-        © 2022 IKS Interns. All Rights Reserved. <br /> Developed by&nbsp;
-        <Link to="https://interns.ieeekerala.org/">IKS Interns.</Link>
-      </footer>
+      <Footer />
     </SimpleBar>
   );
 }

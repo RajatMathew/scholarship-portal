@@ -81,7 +81,7 @@
       }
       display: block;
       max-height: 100vh;
-      max-width: 50%;
+      width: 50vw;
       overflow: hidden;
 
       & > img {
@@ -226,13 +226,5 @@
   }
   section:last-child {
     margin-bottom: 30px;
-  }
-  .footer {
-    background-color: var.$clr-neutral-100;
-    border-top: 1px solid lightgrey;
-    padding: 1rem;
-    font-size: 1rem;
-    color: grey;
-    text-align: center;
   }
 }

@@ -11,6 +11,7 @@ import { ReactComponent as GlobeIcon } from "../../assets/globe.svg";
 import { ReactComponent as ShareIcon } from "../../assets/share.svg";
 import AccordionItem from "../../components/AccordionItem";
 import Button from "../../components/Button";
+import Footer from "../../components/Footer";
 import Timeline, { TimelineElement } from "../../components/Timeline";
 import AboutOrganization from "./components/AboutOrganization";
 import Header from "./components/Header";
@@ -198,6 +199,7 @@ function Scholarship() {
           </section>
         </main>
       </>
+      <Footer />
     </SimpleBar>
   );
   // );
