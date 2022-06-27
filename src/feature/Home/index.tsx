@@ -1,4 +1,12 @@
-import { createRef, useEffect, useRef } from "react";
+import {
+  ButtonBack,
+  ButtonNext,
+  CarouselProvider,
+  Slide,
+  Slider,
+} from "pure-react-carousel";
+import "pure-react-carousel/dist/react-carousel.es.css";
+import { createRef, useEffect, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import SimpleBar from "simplebar-react";
 import { useQuery } from "urql";
@@ -12,24 +20,37 @@ import Footer from "../../components/Footer";
 import { ORGANIZATION_DATA, SCHOLARSHIP_DATA } from "./getData";
 import classes from "./Home.module.scss";
 
+const types = [
+  { type: "scholarship", text: "Scholarships" },
+  { type: "internship", text: "Internships" },
+  { type: "award", text: "Awards" },
+  { type: "funding", text: "Funds & Grants" },
+  { type: "fellowship", text: "Fellowships" },
+  { type: "contest", text: "Contests" },
+];
+
+const categorize = function (scholarships: any) {
+  const categorized = types.reduce((acc: any, type) => {
+    acc[`${type.type}`] = scholarships?.scholarships.data.filter(
+      (scholarship: any) => scholarship.attributes.Type === type.type
+    );
+    return acc;
+  }, {});
+  return categorized;
+};
+
 function Home() {
   const simpleBar = createRef<SimpleBar>();
   const typeRef = useRef<(HTMLElement | null)[]>([]);
 
-  const types = [
-    { type: "scholarship", text: "Scholarships" },
-    { type: "internship", text: "Internships" },
-    { type: "award", text: "Awards" },
-    { type: "funding", text: "Funds & Grants" },
-    { type: "fellowship", text: "Fellowships" },
-    { type: "contest", text: "Contests" },
-  ];
+  const [visible, setVisible] = useState(Math.floor(window.innerWidth / 320));
 
   const [{ data: scholarships, fetching, error }] = useQuery({
     query: SCHOLARSHIP_DATA,
   });
 
-  console.log(scholarships);
+  const scholarshipsCategories = scholarships && categorize(scholarships);
+
   const [{ data: organizations, fetching: loadingOrg, error: errorOrg }] =
     useQuery({
       query: ORGANIZATION_DATA,
@@ -40,6 +61,20 @@ function Home() {
   useEffect(() => {
     simpleBar.current && simpleBar.current.recalculate();
   }, [simpleBar]);
+
+  useEffect(() => {
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setVisible(Math.floor(window.innerWidth / 320));
+    }
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
 
   const firstSectionRef = createRef<HTMLDivElement>();
   return (
@@ -80,6 +115,7 @@ function Home() {
           />
         </div>
       </section>
+
       <main>
         <section className={classes.categories} ref={firstSectionRef}>
           <h1>Categories</h1>
@@ -126,42 +162,54 @@ function Home() {
           </div>
         </section>
         {!fetching ? (
-          types.map((type, idx) => (
-            <section
-              className={classes.orgs}
-              key={type.type}
-              ref={(el) => (typeRef.current[idx] = el)}
+          Object.keys(scholarshipsCategories).map((type, idx) => (
+            <CarouselProvider
+              naturalSlideWidth={320}
+              naturalSlideHeight={200}
+              totalSlides={scholarshipsCategories[type]?.length}
+              isIntrinsicHeight
+              key={type}
+              visibleSlides={visible}
             >
-              <h1>{type.text}</h1>
-              <SimpleBar>
-                <div className={classes.cards}>
-                  {(function () {
-                    let sch = scholarships?.scholarships.data.filter(
-                      (i: any) => i.attributes.Type === type.type.toLowerCase()
-                    );
-                    return sch?.length > 0 ? (
-                      sch?.map((scholarship: any) => (
-                        <Card
-                          logo={`${BASE_URL}${scholarship.attributes.Logo.data.attributes.url}`}
-                          title={scholarship.attributes.Name}
-                          description={scholarship.attributes.Description}
-                          org={
-                            scholarship.attributes.Organization.data.attributes
-                              .Name
-                          }
-                          id={scholarship.id}
-                        />
-                      ))
-                    ) : (
-                      <span className={classes.error}>
-                        Nothing seems to be available now. Please check back
-                        later.
-                      </span>
-                    );
-                  })()}
-                </div>
-              </SimpleBar>
-            </section>
+              <section
+                className={classes.orgs}
+                ref={(el) => (typeRef.current[idx] = el)}
+              >
+                <h1>{types.find((t) => t.type === type)?.text}</h1>
+                {scholarshipsCategories[type]?.length > 0 ? (
+                  <>
+                    <Slider classNameTray={classes.cards}>
+                      {scholarshipsCategories[type]?.map(
+                        (scholarship: any, idx: number) => (
+                          <Slide index={idx} key={scholarship.id}>
+                            <Card
+                              logo={`${BASE_URL}${scholarship.attributes.Logo.data.attributes.url}`}
+                              title={scholarship.attributes.Name}
+                              description={scholarship.attributes.Description}
+                              org={
+                                scholarship.attributes.Organization.data
+                                  .attributes.Name
+                              }
+                              id={scholarship.id}
+                            />
+                          </Slide>
+                        )
+                      )}
+                    </Slider>
+                    {scholarshipsCategories[type].length > visible ? (
+                      <>
+                        <ButtonBack>Back</ButtonBack>
+                        <ButtonNext>Next</ButtonNext>
+                      </>
+                    ) : null}
+                  </>
+                ) : (
+                  <span className={classes.error}>
+                    Nothing seems to be available now. Please check back later.
+                  </span>
+                )}
+              </section>
+            </CarouselProvider>
           ))
         ) : (
           <section className={classes.orgs}>

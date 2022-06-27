@@ -17,6 +17,7 @@
     "graphql": "^16.5.0",
     "graphql-tag": "^2.12.6",
     "lodash": "^4.17.21",
+    "pure-react-carousel": "^1.28.1",
     "react": "^18.2.0",
     "react-accessible-accordion": "^5.0.0",
     "react-chrono": "^1.17.1",

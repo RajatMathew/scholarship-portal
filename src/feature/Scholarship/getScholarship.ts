@@ -2,13 +2,14 @@ import { gql } from "urql";
 
 export default function SCHOLARSHIP_QUERY(id: string) {
   return gql`
-query {
+query Scholarships {
   scholarship(id: ${id}) {
     data {
       id
       attributes {
         Name
         Description
+        Type
         Logo {
           data {
             id

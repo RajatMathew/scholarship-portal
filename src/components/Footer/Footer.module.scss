@@ -7,6 +7,9 @@
   justify-content: space-between;
   padding: 1rem;
   font-size: 1rem;
+  @media screen and (max-width: 850px) {
+    font-size: 0.7rem;
+  }
   color: grey;
   text-align: center;
 }

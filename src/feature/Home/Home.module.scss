@@ -110,20 +110,34 @@
       .orgsContent {
         display: flex;
         flex-wrap: wrap;
-        gap: 1.3em;
-        padding: 1.5em 0;
+        justify-content: flex-start;
+        gap: 1em;
+        padding: 1.5em 0em;
+
+        @media screen and (max-width: 850px) {
+          gap: 1.5vw;
+        }
 
         .org {
-          width: 256px;
-          height: 142px;
+          width: 20vw;
+          height: 10vw;
+          max-width: 256px;
+          max-height: 142px;
           flex-shrink: 0;
           border: 1px solid rgba(147, 147, 147, 0.41);
-          filter: drop-shadow(0px 4px 34px rgba(0, 0, 0, 0.11));
-          border-radius: 27.411px;
+          box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+          border-radius: 2vw;
           display: grid;
           place-items: center;
+          background-color: white;
+          @media screen and (max-width: 850px) {
+            width: 35vw;
+            height: 20vw;
+            border-radius: 5vw;
+          }
           img {
             max-height: 60%;
+            max-width: 60%;
             margin: auto;
             object-fit: contain;
             overflow: hidden;
@@ -214,17 +228,17 @@
 
   .cards {
     display: flex;
-    overflow-x: auto;
     gap: 1.3em;
     padding-block-start: 1em;
     padding-bottom: 0;
-    .error {
-      padding-left: 1em;
-      color: grey;
-      font-size: 1rem;
-    }
+    height: min-content;
   }
   section:last-child {
     margin-bottom: 30px;
   }
+}
+.error {
+  padding-left: 1em;
+  color: grey;
+  font-size: 1rem;
 }

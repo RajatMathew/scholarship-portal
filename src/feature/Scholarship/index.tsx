@@ -141,18 +141,20 @@ function Scholarship() {
                           collapsible={section.Collapsible}
                         />
                       ))}
-                      <AccordionItem title="Frequently asked questions">
-                        {FAQs?.map((FAQ) => (
-                          <AccordionItem
-                            type="small"
-                            TitleComponent={"h4"}
-                            title={FAQ.Question}
-                            key={FAQ.id}
-                          >
-                            {FAQ.Answer}
-                          </AccordionItem>
-                        ))}
-                      </AccordionItem>
+                      {FAQs && FAQs?.length > 0 ? (
+                        <AccordionItem title="Frequently asked questions">
+                          {FAQs?.map((FAQ) => (
+                            <AccordionItem
+                              type="small"
+                              TitleComponent={"h4"}
+                              title={FAQ.Question}
+                              key={FAQ.id}
+                            >
+                              {FAQ.Answer}
+                            </AccordionItem>
+                          ))}
+                        </AccordionItem>
+                      ) : null}
                       {isNotDesktop && (
                         <AccordionItem title="Timeline">
                           <section>
