@@ -17,6 +17,7 @@ import MainLogo from "../../assets/main-logo-Banner.png";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import Footer from "../../components/Footer";
+import ErrorPage from "../ErrorPage";
 import { ORGANIZATION_DATA, SCHOLARSHIP_DATA } from "./getData";
 import classes from "./Home.module.scss";
 
@@ -45,19 +46,6 @@ function Home() {
 
   const [visible, setVisible] = useState(Math.floor(window.innerWidth / 320));
 
-  const [{ data: scholarships, fetching, error }] = useQuery({
-    query: SCHOLARSHIP_DATA,
-  });
-
-  const scholarshipsCategories = scholarships && categorize(scholarships);
-
-  const [{ data: organizations, fetching: loadingOrg, error: errorOrg }] =
-    useQuery({
-      query: ORGANIZATION_DATA,
-    });
-  console.log(organizations?.organizations.data);
-  //const isNotDesktop = useMediaQuery({ query: "(max-width: 850px)" });
-
   useEffect(() => {
     simpleBar.current && simpleBar.current.recalculate();
   }, [simpleBar]);
@@ -75,6 +63,21 @@ function Home() {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
   }, []); // Empty array ensures that effect is only run on mount
+
+  const [{ data: scholarships, fetching, error }] = useQuery({
+    query: SCHOLARSHIP_DATA,
+  });
+
+  const scholarshipsCategories = scholarships && categorize(scholarships);
+
+  const [{ data: organizations, fetching: loadingOrg, error: errorOrg }] =
+    useQuery({
+      query: ORGANIZATION_DATA,
+    });
+
+  if (error || errorOrg) return <ErrorPage />;
+
+  //const isNotDesktop = useMediaQuery({ query: "(max-width: 850px)" });
 
   const firstSectionRef = createRef<HTMLDivElement>();
   return (
@@ -141,7 +144,7 @@ function Home() {
           </div>
         </section>
         <section className={classes.orgs}>
-          <h1>{fetching ? <Skeleton width="20ch" /> : "Powered by"} </h1>
+          <h1>{loadingOrg ? <Skeleton width="10ch" /> : "Powered by"} </h1>
           <div className={classes.orgsContent}>
             {!fetching ? (
               organizations?.organizations.data.map((org: any) => (
@@ -198,8 +201,32 @@ function Home() {
                     </Slider>
                     {scholarshipsCategories[type].length > visible ? (
                       <>
-                        <ButtonBack>Back</ButtonBack>
-                        <ButtonNext>Next</ButtonNext>
+                        <ButtonBack className={classes.btnBack}>
+                          <svg
+                            width="16"
+                            height="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path d="M2.117 12l7.527 6.235-.644.765-9-7.521 9-7.479.645.764-7.529 6.236h21.884v1h-21.883z" />
+                          </svg>
+                        </ButtonBack>
+                        <ButtonNext className={classes.btnNext}>
+                          <svg
+                            width="16"
+                            height="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" />
+                          </svg>
+                        </ButtonNext>
                       </>
                     ) : null}
                   </>

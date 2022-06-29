@@ -13,6 +13,7 @@ import AccordionItem from "../../components/AccordionItem";
 import Button from "../../components/Button";
 import Footer from "../../components/Footer";
 import Timeline, { TimelineElement } from "../../components/Timeline";
+import ErrorPage from "../ErrorPage";
 import AboutOrganization from "./components/AboutOrganization";
 import Header from "./components/Header";
 import Section from "./components/Section";
@@ -32,178 +33,187 @@ function Scholarship() {
   useEffect(() => {
     simpleBar.current && simpleBar.current.recalculate();
   }, [simpleBar]);
-
   const isNotDesktop = useMediaQuery({ query: "(max-width: 850px)" });
 
-  const ScholarshipDetails = data?.scholarship.data.attributes;
+  if (data?.scholarship.data !== null) {
+    const ScholarshipDetails = data?.scholarship.data.attributes;
 
-  const OrganizationDetails = ScholarshipDetails?.Organization;
-  const TimelineDetails = ScholarshipDetails?.Timeline;
-  const Sections = ScholarshipDetails?.Sections;
-  const FAQs = ScholarshipDetails?.FAQs;
+    const OrganizationDetails = ScholarshipDetails?.Organization;
+    const TimelineDetails = ScholarshipDetails?.Timeline;
+    const Sections = ScholarshipDetails?.Sections;
+    const FAQs = ScholarshipDetails?.FAQs;
 
-  const aboutOrganization = (
-    <AboutOrganization loading={fetching} organization={OrganizationDetails} />
-  );
-
-  return (
-    <SimpleBar ref={simpleBar} className={classes.container}>
-      <>
-        <Header />
-        <main>
-          {!fetching ? (
-            <div className={classes.coverImg} data-loading="false">
-              <img
-                src={
-                  "https://source.unsplash.com/random/640x1200/?nature,mountains,blue"
-                }
-                alt="cover"
-              />
-            </div>
-          ) : (
-            <Skeleton containerClassName={classes.coverImg} height="100%" />
-          )}
-          <section className={classes.wrapper}>
-            <section className={classes.content}>
-              <div className={classes.contentWrapper}>
-                {!fetching ? (
-                  <img
-                    src={`${BASE_URL}${ScholarshipDetails?.Logo.data.attributes.url}`}
-                    aria-hidden="true"
-                    className={classes.logo}
-                    alt="Logo"
-                  />
-                ) : (
-                  <Skeleton className={classes.logo} />
-                )}
-                <h1>
-                  {!fetching ? (
-                    ScholarshipDetails?.Name
-                  ) : (
-                    <Skeleton width="90%" />
-                  )}
-                </h1>
-                {!fetching ? (
-                  <span>by {OrganizationDetails?.data.attributes.Name}</span>
-                ) : (
-                  <Skeleton width="10ch" />
-                )}
-                <p aria-labelledby={OrganizationDetails?.data.attributes.Name}>
-                  {!fetching ? (
-                    OrganizationDetails?.data.attributes.Description
-                  ) : (
-                    <Skeleton count={3} />
-                  )}
-                </p>
-
-                <div className={classes.btns}>
-                  {!fetching && (
-                    <>
-                      <Button
-                        variant="text"
-                        color="primary"
-                        type="button"
-                        rounded="pill"
-                        onClick={() =>
-                          window.open(ScholarshipDetails?.Link, "_blank")
-                        }
-                      >
-                        <GlobeIcon />
-                        Learn more
-                      </Button>
-                      {isNotDesktop ? (
-                        <Button
-                          color="secondary"
-                          variant="icon"
-                          type="button"
-                          onClick={() => {
-                            navigator.share({
-                              url: window.location.href,
-                              text: `${ScholarshipDetails?.Name} by ${OrganizationDetails?.data.attributes.Name}`,
-                              title: `${ScholarshipDetails?.Name} by ${OrganizationDetails?.data.attributes.Name}`,
-                            });
-                          }}
-                        >
-                          <ShareIcon />
-                        </Button>
-                      ) : null}
-                    </>
-                  )}
-                </div>
-                <Accordion allowMultipleExpanded allowZeroExpanded>
-                  {!fetching ? (
-                    <>
-                      {Sections?.map((section) => (
-                        <Section
-                          title={section.Title}
-                          key={section.id}
-                          markdown={section.Content}
-                          collapsible={section.Collapsible}
-                        />
-                      ))}
-                      {FAQs && FAQs?.length > 0 ? (
-                        <AccordionItem title="Frequently asked questions">
-                          {FAQs?.map((FAQ) => (
-                            <AccordionItem
-                              type="small"
-                              TitleComponent={"h4"}
-                              title={FAQ.Question}
-                              key={FAQ.id}
-                            >
-                              {FAQ.Answer}
-                            </AccordionItem>
-                          ))}
-                        </AccordionItem>
-                      ) : null}
-                      {isNotDesktop && (
-                        <AccordionItem title="Timeline">
-                          <section>
-                            <Timeline
-                              items={TimelineDetails as TimelineElement[]}
-                            />
-                          </section>
-                        </AccordionItem>
-                      )}
-                    </>
-                  ) : (
-                    <section>
-                      <h3>
-                        <Skeleton width="60%" />
-                      </h3>
-                      <p>
-                        <Skeleton count={5} />
-                      </p>
-                    </section>
-                  )}
-                  {isNotDesktop && (
-                    <section>
-                      <br />
-                      {aboutOrganization}
-                    </section>
-                  )}
-                </Accordion>
+    const aboutOrganization = (
+      <AboutOrganization
+        loading={fetching}
+        organization={OrganizationDetails}
+      />
+    );
+    return error ? (
+      <ErrorPage />
+    ) : (
+      <SimpleBar ref={simpleBar} className={classes.container}>
+        <>
+          <Header />
+          <main>
+            {!fetching ? (
+              <div className={classes.coverImg} data-loading="false">
+                <img
+                  src={
+                    "https://source.unsplash.com/random/640x1200/?nature,mountains,blue"
+                  }
+                  alt="cover"
+                />
               </div>
-            </section>
-
-            {!isNotDesktop && (
-              <section className={classes.rightSidebar}>
-                {aboutOrganization}
-                <section className={classes.timelineWrapper}>
-                  <h2>{!fetching ? "Timeline" : <Skeleton />}</h2>
-                  {!fetching ? (
-                    <Timeline items={TimelineDetails as TimelineElement[]} />
-                  ) : (
-                    <Skeleton count={10} />
-                  )}
-                </section>
-              </section>
+            ) : (
+              <Skeleton containerClassName={classes.coverImg} height="100%" />
             )}
-          </section>
-        </main>
-      </>
-      <Footer />
-    </SimpleBar>
-  );
+            <section className={classes.wrapper}>
+              <section className={classes.content}>
+                <div className={classes.contentWrapper}>
+                  {!fetching ? (
+                    <img
+                      src={`${BASE_URL}${ScholarshipDetails?.Logo.data.attributes.url}`}
+                      aria-hidden="true"
+                      className={classes.logo}
+                      alt="Logo"
+                    />
+                  ) : (
+                    <Skeleton className={classes.logo} />
+                  )}
+                  <h1>
+                    {!fetching ? (
+                      ScholarshipDetails?.Name
+                    ) : (
+                      <Skeleton width="90%" />
+                    )}
+                  </h1>
+                  {!fetching ? (
+                    <span>by {OrganizationDetails?.data.attributes.Name}</span>
+                  ) : (
+                    <Skeleton width="10ch" />
+                  )}
+                  <p
+                    aria-labelledby={OrganizationDetails?.data.attributes.Name}
+                  >
+                    {!fetching ? (
+                      ScholarshipDetails?.Description
+                    ) : (
+                      <Skeleton count={3} />
+                    )}
+                  </p>
+
+                  <div className={classes.btns}>
+                    {!fetching && (
+                      <>
+                        <Button
+                          variant="text"
+                          color="primary"
+                          type="button"
+                          rounded="pill"
+                          onClick={() =>
+                            window.open(ScholarshipDetails?.Link, "_blank")
+                          }
+                        >
+                          <GlobeIcon />
+                          Learn more
+                        </Button>
+                        {isNotDesktop ? (
+                          <Button
+                            color="secondary"
+                            variant="icon"
+                            type="button"
+                            onClick={() => {
+                              navigator.share({
+                                url: window.location.href,
+                                text: `${ScholarshipDetails?.Name} by ${OrganizationDetails?.data.attributes.Name}`,
+                                title: `${ScholarshipDetails?.Name} by ${OrganizationDetails?.data.attributes.Name}`,
+                              });
+                            }}
+                          >
+                            <ShareIcon />
+                          </Button>
+                        ) : null}
+                      </>
+                    )}
+                  </div>
+                  <Accordion allowMultipleExpanded allowZeroExpanded>
+                    {!fetching ? (
+                      <>
+                        {Sections?.map((section) => (
+                          <Section
+                            title={section.Title}
+                            key={section.id}
+                            markdown={section.Content}
+                            collapsible={section.Collapsible}
+                          />
+                        ))}
+                        {FAQs && FAQs?.length > 0 ? (
+                          <AccordionItem title="Frequently asked questions">
+                            {FAQs?.map((FAQ) => (
+                              <AccordionItem
+                                type="small"
+                                TitleComponent={"h4"}
+                                title={FAQ.Question}
+                                key={FAQ.id}
+                              >
+                                {FAQ.Answer}
+                              </AccordionItem>
+                            ))}
+                          </AccordionItem>
+                        ) : null}
+                        {isNotDesktop && (
+                          <AccordionItem title="Timeline">
+                            <section>
+                              <Timeline
+                                items={TimelineDetails as TimelineElement[]}
+                              />
+                            </section>
+                          </AccordionItem>
+                        )}
+                      </>
+                    ) : (
+                      <section>
+                        <h3>
+                          <Skeleton width="60%" />
+                        </h3>
+                        <p>
+                          <Skeleton count={5} />
+                        </p>
+                      </section>
+                    )}
+                    {isNotDesktop && (
+                      <section>
+                        <br />
+                        {aboutOrganization}
+                      </section>
+                    )}
+                  </Accordion>
+                </div>
+              </section>
+
+              {!isNotDesktop && (
+                <section className={classes.rightSidebar}>
+                  {aboutOrganization}
+                  <section className={classes.timelineWrapper}>
+                    <h2>{!fetching ? "Timeline" : <Skeleton />}</h2>
+                    {!fetching ? (
+                      <Timeline items={TimelineDetails as TimelineElement[]} />
+                    ) : (
+                      <Skeleton count={10} />
+                    )}
+                  </section>
+                </section>
+              )}
+            </section>
+          </main>
+        </>
+        <Footer />
+      </SimpleBar>
+    );
+  } else {
+    return <ErrorPage />;
+  }
   // );
 }
 
