@@ -25,7 +25,7 @@ const types = [
   { type: "scholarship", text: "Scholarships" },
   { type: "internship", text: "Internships" },
   { type: "award", text: "Awards" },
-  { type: "funding", text: "Funds & Grants" },
+  { type: "grants", text: "Funds & Grants" },
   { type: "fellowship", text: "Fellowships" },
   { type: "contest", text: "Contests" },
 ];
@@ -43,8 +43,8 @@ const categorize = function (scholarships: any) {
 function Home() {
   const simpleBar = createRef<SimpleBar>();
   const typeRef = useRef<(HTMLElement | null)[]>([]);
-
-  const [visible, setVisible] = useState(Math.floor(window.innerWidth / 320));
+  const _num = Math.floor(window.innerWidth / 340);
+  const [visible, setVisible] = useState(_num === 0 ? 1 : _num);
 
   useEffect(() => {
     simpleBar.current && simpleBar.current.recalculate();
@@ -54,7 +54,8 @@ function Home() {
     // Handler to call on window resize
     function handleResize() {
       // Set window width/height to state
-      setVisible(Math.floor(window.innerWidth / 320));
+      let num = Math.floor(window.innerWidth / 340);
+      setVisible(num === 0 ? 1 : num);
     }
     // Add event listener
     window.addEventListener("resize", handleResize);
@@ -133,6 +134,7 @@ function Home() {
                   });
                 }}
                 className={classes.categoryItem}
+                key={idx}
               >
                 <div className={classes.categoryItemText}>
                   <h1>{type.text}</h1>
@@ -147,8 +149,8 @@ function Home() {
           <h1>{loadingOrg ? <Skeleton width="10ch" /> : "Powered by"} </h1>
           <div className={classes.orgsContent}>
             {!fetching ? (
-              organizations?.organizations.data.map((org: any) => (
-                <div className={classes.org}>
+              organizations?.organizations.data.map((org: any, idx: number) => (
+                <div className={classes.org} key={idx}>
                   <img
                     src={`${BASE_URL}${org.attributes.Logo.data.attributes.url}`}
                     className={classes.orgImg}
@@ -206,8 +208,8 @@ function Home() {
                             width="16"
                             height="16"
                             xmlns="http://www.w3.org/2000/svg"
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             viewBox="0 0 24 24"
                             fill="currentColor"
                           >
@@ -219,8 +221,8 @@ function Home() {
                             width="16"
                             height="16"
                             xmlns="http://www.w3.org/2000/svg"
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             fill="currentColor"
                             viewBox="0 0 24 24"
                           >

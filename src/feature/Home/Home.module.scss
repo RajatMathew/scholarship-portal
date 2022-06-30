@@ -136,6 +136,7 @@
         &:disabled {
           transform: translateY(1000px);
           opacity: 0;
+          box-shadow: 0;
         }
         &:hover {
           box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,

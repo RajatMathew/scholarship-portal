@@ -17,7 +17,9 @@ export type CardProps = {
 let cx = classNames.bind(classes);
 function Card(props: CardProps) {
   const { id, logo, title, org, description, loading } = props;
+
   const navigate = useNavigate();
+
   return (
     <div className={cx("wrapper")}>
       {/* <span className={cx("utag")}>
@@ -26,7 +28,7 @@ function Card(props: CardProps) {
       </span> */}
       <div className={cx("imgWrapper")}>
         {loading ? (
-          <Skeleton width="100%" height="100%" />
+          <Skeleton width="100%" height="100%" className={cx("img")} />
         ) : (
           <img alt={"logo"} src={`${logo}`} className={cx("img")} />
         )}
@@ -44,8 +46,12 @@ function Card(props: CardProps) {
             <span className={cx("tag")}>For 3rd and 4th years</span>
           </div> */}
         </div>
+        <div className={cx("description")}>
+          <p id="carddesc">
+            {loading ? <Skeleton count={5} width="20ch" /> : description}
+          </p>
+        </div>
 
-        <p>{loading ? <Skeleton count={5} width="20ch" /> : description}</p>
         {loading ? null : (
           <Button
             className={cx("vmBtn")}
