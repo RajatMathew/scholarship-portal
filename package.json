@@ -38,7 +38,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +65,7 @@
     "@redux-devtools/core": "^3.13.1",
     "@types/lodash": "^4.14.182",
     "classnames": "^2.3.1",
+    "gh-pages": "^4.0.0",
     "shave": "^4.0.0"
   }
 }
