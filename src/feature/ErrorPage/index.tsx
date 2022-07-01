@@ -1,4 +1,4 @@
-import ErrorImg from "../../assets/error.png";
+import ErrorImg from "../../assets/error.webp";
 import classes from "./ErrorPage.module.scss";
 
 function ErrorPage() {
