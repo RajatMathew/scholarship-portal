@@ -37,6 +37,10 @@
       position: absolute;
       top: 30px;
       left: 70px;
+
+      @media screen and (max-width: 350px) {
+        width: 100px;
+      }
     }
 
     &Text {
@@ -46,19 +50,28 @@
       flex: 1 1 724px;
       font-weight: 700;
       font-size: 5.75vw;
+      text-align: center;
       line-height: 1;
       flex-direction: column;
       overflow: hidden;
 
       &Content {
         margin: auto;
-        width: fit-content;
+        width: 12ch;
         max-width: 75%;
-        @media screen and (max-width: 850px) {
-          font-size: 10vw;
-          line-height: 1.5;
-          text-align: center;
+        line-height: 1.5;
+
+        @media screen and (min-width: 850px) {
+          line-height: unset;
+          text-align: left;
         }
+        @media screen and (min-width: 350px) {
+          font-size: toRem(33.9);
+        }
+        @media screen and (max-width: 350px) {
+          font-size: 10vw;
+        }
+
         button {
           padding-top: 0.9em;
           padding-bottom: 0.7em;
